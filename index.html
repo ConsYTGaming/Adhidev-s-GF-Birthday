@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Birthday Message For You ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient Audio Controls & Floating Sparkles -->
+  <div class="ambient-controls">
+    <button id="soundToggleBtn" class="sound-toggle-btn" title="Toggle Sound Effects">
+      <span class="sound-icon">🔊</span>
+      <span class="sound-label">Sound On</span>
+    </button>
+  </div>
+
+  <!-- Background Floating Hearts Canvas -->
+  <canvas id="heartsCanvas"></canvas>
+
+  <main id="app">
+    <!-- ================= PAGE 1: INTRO / MAILBOX ================= -->
+    <section id="page-1" class="page active">
+      <div class="page-content center-box">
+        <div class="email-badge-card">
+          <div class="email-icon-wrapper">
+            <img src="assets/email.png" alt="Love Letter" class="floating-email-img">
+            <div class="sparkle sparkle-1">✨</div>
+            <div class="sparkle sparkle-2">💖</div>
+            <div class="sparkle sparkle-3">⭐</div>
+          </div>
+
+          <h1 class="main-title">
+            you got message from your closest friend aka your bf :)
+          </h1>
+
+          <p class="subtitle">a special surprise waiting just for you on your birthday</p>
+
+          <button id="btnOpenMail" class="btn-primary pulse-btn">
+            <span class="btn-icon">💌</span>
+            <span class="btn-text">open</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cute Animated Cat in the Corner -->
+      <div class="corner-cat-container" title="Meow! Peek-a-boo!">
+        <div class="cat-speech-bubble">Happy Birthday! 💕</div>
+        <img src="assets/corner_cat.png" alt="Cute Kitten" class="corner-cat-img">
+      </div>
+    </section>
+
+    <!-- ================= PAGE 2: CUTE WARNING ================= -->
+    <section id="page-2" class="page">
+      <div class="page-content center-box">
+        <div class="warning-card">
+          <div class="warning-tape-top">
+            <span>⚠️ LOVE POLICE ⚠️</span>
+            <span>WARNING</span>
+            <span>⚠️ HEART AT WORK ⚠️</span>
+          </div>
+
+          <div class="warning-icon-wrapper">
+            <span class="warning-emoji">⚠️</span>
+            <span class="warning-heart">💘</span>
+          </div>
+
+          <h2 class="warning-title">
+            Warning! might make you fall in love
+          </h2>
+
+          <div class="warning-notes">
+            <div class="note-pill">🚨 Side Effect: Uncontrollable smiling</div>
+            <div class="note-pill">🦋 Side Effect: Extreme butterflies</div>
+            <div class="note-pill">🥺 Side Effect: Missing me 1000x more</div>
+          </div>
+
+          <p class="warning-sub">
+            Do you solemnly swear that you are ready for maximum cuteness?
+          </p>
+
+          <button id="btnAgreeContinue" class="btn-agree pulse-btn">
+            <span class="btn-icon">✨</span>
+            <span class="btn-text">agree and continue</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 3: 3 ENVELOPES HUB ================= -->
+    <section id="page-3" class="page">
+      <div class="page-content envelope-hub-content">
+        <div class="hub-header">
+          <div class="hub-sticker-left">🌸</div>
+          <h2 class="hub-title">select cuteness</h2>
+          <div class="hub-sticker-right">🎀</div>
+        </div>
+        <p class="hub-subtitle">Pick an envelope to unlock your birthday treasures</p>
+
+        <!-- Progress Tracker: All letters must be opened to see the final page -->
+        <div class="hub-progress-tracker" id="hubProgressTracker">
+          <div class="progress-pill">
+            <span class="progress-heart-icon">💌</span>
+            <span class="progress-text" id="progressCountText">Letters Opened: 0 / 3</span>
+          </div>
+          <div class="progress-steps">
+            <span class="step-badge" id="stepBadge1">1. Letter 🤍</span>
+            <span class="step-badge" id="stepBadge2">2. Memories 🤍</span>
+            <span class="step-badge" id="stepBadge3">3. Song 🤍</span>
+          </div>
+        </div>
+
+        <!-- Grand Finale Unlock Card: Unlocked only when all 3 envelopes are opened -->
+        <div id="hubFinaleUnlockCard" class="hub-finale-unlock-card hidden">
+          <div class="unlock-sparkles">✨💖⭐</div>
+          <div class="unlock-badge">🎉 ALL 3 LETTERS OPENED! 🎉</div>
+          <h3 class="unlock-title">Our Final Birthday Secret is Ready 💕</h3>
+          <p class="unlock-desc">You unlocked all 3 letters... now it's time for my sweetest promise to you.</p>
+          <button id="btnOpenFinaleFromHub" class="btn-primary pulse-btn unlock-cta-btn">
+            <span>Read Our Final Promise</span>
+            <span class="btn-icon">➔ 🥺❤️</span>
+          </button>
+        </div>
+
+        <div class="envelopes-grid">
+          <!-- Envelope 1 -->
+          <div class="envelope-card" id="envelopeCard1" data-envelope="1">
+            <div class="envelope-stamp">#1</div>
+            <div class="envelope-graphic">
+              <div class="env-body">
+                <div class="env-flap"></div>
+                <div class="env-paper">
+                  <span class="paper-preview">📄 letter_for_milena.txt</span>
+                </div>
+                <div class="env-seal">💌</div>
+              </div>
+            </div>
+            <div class="envelope-info">
+              <h3 class="env-label">A Secret Letter</h3>
+              <p class="env-desc">Words typed straight from my heart</p>
+              <div class="env-status" id="statusEnv1">Click to open ✨</div>
+            </div>
+          </div>
+
+          <!-- Envelope 2 -->
+          <div class="envelope-card" id="envelopeCard2" data-envelope="2">
+            <div class="envelope-stamp">#2</div>
+            <div class="envelope-graphic">
+              <div class="env-body">
+                <div class="env-flap"></div>
+                <div class="env-paper">
+                  <span class="paper-preview">📸 Our Memories</span>
+                </div>
+                <div class="env-seal">📷</div>
+              </div>
+            </div>
+            <div class="envelope-info">
+              <h3 class="env-label">Best Memories</h3>
+              <p class="env-desc">Our favorite hanging polaroids</p>
+              <div class="env-status" id="statusEnv2">Click to open ✨</div>
+            </div>
+          </div>
+
+          <!-- Envelope 3 -->
+          <div class="envelope-card" id="envelopeCard3" data-envelope="3">
+            <div class="envelope-stamp">#3</div>
+            <div class="envelope-graphic">
+              <div class="env-body">
+                <div class="env-flap"></div>
+                <div class="env-paper">
+                  <span class="paper-preview">🎵 Our Favorite Song</span>
+                </div>
+                <div class="env-seal">🎶</div>
+              </div>
+            </div>
+            <div class="envelope-info">
+              <h3 class="env-label">Our Song</h3>
+              <p class="env-desc">The melody we always sing together</p>
+              <div class="env-status" id="statusEnv3">Click to open ✨</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-footer">
+          <span class="sparkle-hint">💡 You can open each envelope at your own pace!</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 4 (ENVELOPE 1): TYPING TEXT FILE ================= -->
+    <section id="page-4" class="page">
+      <div class="page-content textfile-content">
+        <!-- Retro Notepad Window -->
+        <div class="notepad-window">
+          <div class="notepad-titlebar">
+            <div class="notepad-buttons">
+              <span class="np-btn np-close" title="Close"></span>
+              <span class="np-btn np-min" title="Minimize"></span>
+              <span class="np-btn np-max" title="Zoom"></span>
+            </div>
+            <div class="notepad-title">
+              <span class="np-icon">📄</span> letter_for_milena.txt — Notepad
+            </div>
+            <div class="notepad-sound-indicator" id="typingSoundIndicator">
+              ⌨️ Typing for Milena...
+            </div>
+          </div>
+
+          <div class="notepad-menubar">
+            <span>File</span>
+            <span>Edit</span>
+            <span>Format</span>
+            <span>View</span>
+            <span>Love</span>
+          </div>
+
+          <div class="notepad-body">
+            <div class="notepad-text-area">
+              <div id="typewriterTarget" class="typed-text"></div>
+              <span id="typingCursor" class="typing-cursor"></span>
+            </div>
+          </div>
+
+          <div class="notepad-statusbar">
+            <span>Ln 1, Col 1480</span>
+            <span>100%</span>
+            <span>UTF-8 with Love ❤️</span>
+          </div>
+        </div>
+
+        <!-- Controls below text file -->
+        <div class="notepad-actions">
+          <button id="btnSkipTyping" class="btn-skip" title="Show full message instantly">
+            ⏩ Show text immediately
+          </button>
+
+          <!-- Continue button animated with heart -->
+          <button id="btnContinueFromLetter" class="btn-continue-heart hidden" title="Back to Envelopes">
+            <span class="btn-text">continue</span>
+            <span class="heart-pulse">❤️</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 5 (ENVELOPE 2): BEST MEMORIES CLOTHESLINE ================= -->
+    <section id="page-5" class="page memories-page">
+      <!-- Top header bar with scrapbook lettering & Continue button -->
+      <div class="memories-top-bar">
+        <button id="btnBackToEnvelopesFromMemories" class="btn-back-pill" title="Back to envelopes">
+          ← Back to Envelopes
+        </button>
+
+        <!-- Ransom note / Scrapbook Title: "Best memories" -->
+        <div class="scrapbook-title-wrapper">
+          <div class="scrapbook-word word-best">
+            <span class="letter letter-b" style="--rot: -4deg; --bg: #d7ccc8; --color: #4e342e;">B</span>
+            <span class="letter letter-e" style="--rot: 3deg; --bg: #ffccbc; --color: #d84315;">e</span>
+            <span class="letter letter-s" style="--rot: -2deg; --bg: #f8bbd0; --color: #c2185b;">s</span>
+            <span class="letter letter-t" style="--rot: 4deg; --bg: #c8e6c9; --color: #2e7d32;">t</span>
+          </div>
+          <div class="scrapbook-word word-memories">
+            <span class="letter letter-m1" style="--rot: -3deg; --bg: #f48fb1; --color: #ffffff;">m</span>
+            <span class="letter letter-e2" style="--rot: 2deg; --bg: #e1bee7; --color: #4a148c;">e</span>
+            <span class="letter letter-m2" style="--rot: -2deg; --bg: #cfd8dc; --color: #263238;">M</span>
+            <span class="letter letter-o" style="--rot: 4deg; --bg: #ad1457; --color: #ffffff;">O</span>
+            <span class="letter letter-r" style="--rot: -4deg; --bg: #ffcdd2; --color: #b71c1c;">r</span>
+            <span class="letter letter-i" style="--rot: 2deg; --bg: #fce4ec; --color: #d81b60;">i</span>
+            <span class="letter letter-e3" style="--rot: -3deg; --bg: #d7ccc8; --color: #5d4037;">E</span>
+            <span class="letter letter-s2" style="--rot: 3deg; --bg: #f8bbd0; --color: #ad1457;">S</span>
+          </div>
+        </div>
+
+        <!-- The exact glossy red CONTINUE button from reference picture -->
+        <button id="btnContinueFromMemories" class="btn-red-capsule pulse-btn" title="Save & Continue">
+          <span>CONTINUE</span>
+        </button>
+      </div>
+
+      <!-- Scrapbook Decorative Floating Stickers (matching attached image) -->
+      <div class="scrapbook-decorations">
+        <div class="decor-sticker sticker-lily">🌸</div>
+        <div class="decor-sticker sticker-camera-top">📷</div>
+        <div class="decor-sticker sticker-rabbit">🐰</div>
+        <div class="decor-sticker sticker-spiral">🌀</div>
+        <div class="decor-sticker sticker-camera-left">📸</div>
+        <div class="decor-sticker sticker-pink-letter">💌</div>
+        <div class="decor-sticker sticker-ribbon-bow">🎀</div>
+        <div class="decor-sticker sticker-little-bunny">🧸</div>
+        <div class="decor-sticker sticker-flower-bottom">💮</div>
+      </div>
+
+      <!-- Main Clothesline Hanging Gallery -->
+      <div class="clothesline-container">
+        <!-- SVG Curved Wire with Glowing Fairy Lights -->
+        <svg class="clothesline-wire-svg" viewBox="0 0 1200 160" preserveAspectRatio="none">
+          <path id="clothesWire" d="M 0,40 Q 600,120 1200,45" fill="none" stroke="#795548" stroke-width="3.5" stroke-linecap="round"/>
+        </svg>
+
+        <!-- Fairy Lights string with warm glowing bulbs -->
+        <div class="fairy-lights-row" id="fairyLightsRow"></div>
+
+        <!-- 6 Hanging Polaroids with Clothespins & Pink Plaid Frames -->
+        <div class="polaroids-row" id="polaroidsRow">
+          <!-- Polaroid items will be rendered dynamically with customize support -->
+        </div>
+      </div>
+
+      <!-- Poetic Love Quote Banner -->
+      <div class="memories-quote-container">
+        <span class="quote-sparkle quote-sparkle-left">✨</span>
+        <p class="memories-poetic-quote">
+          “Out of all the memories this world could hold, my favorite will always be you.”
+        </p>
+        <span class="quote-sparkle quote-sparkle-right">🌸</span>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 6 (ENVELOPE 3): FAVORITE SONG & LYRICS ================= -->
+    <section id="page-6" class="page song-page">
+      <div class="song-page-container">
+        <!-- Left Side: Music Player & Text -->
+        <div class="song-left-col">
+          <div class="song-left-top-bar">
+            <button id="btnBackToEnvelopesFromSong" class="btn-back-pill" title="Back to envelopes">
+              ← Back to Envelopes
+            </button>
+            <span class="song-sub-badge">Envelope #3: Our Song 🎵</span>
+          </div>
+
+          <div class="romantic-message-box">
+            <span class="music-floating-note note-1">🎵</span>
+            <span class="music-floating-note note-2">🎶</span>
+            <span class="music-floating-note note-3">💕</span>
+            <h2 class="romantic-song-text">
+              "you cross my mind when i listen to this song"
+            </h2>
+            <p class="romantic-song-sub">the special melody that carries my thoughts to you</p>
+          </div>
+
+          <!-- Vinyl / Music Player Widget -->
+          <div class="vinyl-player-card">
+            <div class="vinyl-turntable">
+              <div class="vinyl-disc" id="vinylDisc">
+                <div class="vinyl-groove-lines"></div>
+                <div class="vinyl-center-label">
+                  <span class="vinyl-heart-icon">💖</span>
+                  <span class="vinyl-song-short" id="vinylLabelTitle">Our Song</span>
+                </div>
+              </div>
+              <div class="tonearm" id="toneArm"></div>
+            </div>
+
+            <!-- Player Controls -->
+            <div class="player-controls">
+              <div class="track-info">
+                <div class="track-title-row">
+                  <h3 id="currentSongTitle" class="track-title">Sakkarakatti</h3>
+                  <button id="btnEditSongDetails" class="btn-mini-edit" title="Customize Song & Lyrics">✏️ Edit</button>
+                </div>
+                <p id="currentArtistName" class="track-artist">Hiphop Tamizha</p>
+              </div>
+
+              <!-- Audio Progress Bar -->
+              <div class="progress-bar-container">
+                <span id="currentTimeDisplay">0:00</span>
+                <input type="range" id="audioScrubber" min="0" max="100" value="0">
+                <span id="durationDisplay">1:05</span>
+              </div>
+
+              <div class="player-buttons-row">
+                <button id="btnPrevVerse" class="btn-ctrl" title="Previous verse">⏮️</button>
+                <button id="btnPlayPause" class="btn-ctrl-play" title="Play / Pause">
+                  <span id="playPauseIcon">▶️</span>
+                </button>
+                <button id="btnNextVerse" class="btn-ctrl" title="Next verse">⏭️</button>
+              </div>
+
+              <!-- Volume & Custom Audio Upload -->
+              <div class="audio-extra-controls">
+                <div class="volume-slider-group">
+                  <span>🔊</span>
+                  <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" title="Volume">
+                </div>
+                <label class="btn-upload-audio" for="customAudioUpload" title="Upload your own song MP3">
+                  🎵 Upload MP3
+                  <input type="file" id="customAudioUpload" accept="audio/*" style="display:none;">
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Lyrics Display & Continue Button -->
+        <div class="song-right-col">
+          <div class="lyrics-card">
+            <div class="lyrics-header">
+              <div class="lyrics-tag">🎤 Lyrics we always sing together</div>
+              <div class="lyrics-actions">
+                <button id="btnEditLyricsQuick" class="btn-text-action">Edit Lyrics</button>
+              </div>
+            </div>
+
+            <div class="lyrics-scroll-box" id="lyricsScrollBox">
+              <!-- Rendered lyrics lines -->
+            </div>
+
+            <div class="lyrics-footer">
+              <p class="lyrics-sing-along">🎶 Sing it out loud for me! 💕</p>
+              <!-- Continue Button to final page -->
+              <button id="btnContinueToFinale" class="btn-continue-finale pulse-btn">
+                <span>Continue to our promise</span>
+                <span class="arrow-heart">➔ ❤️</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PAGE 7: FINALE / "i will meet you soon, imissu" ================= -->
+    <section id="page-7" class="page finale-page">
+      <div class="finale-content center-box">
+        <!-- Floating Stars & Hearts -->
+        <div class="finale-sparkles">
+          <span class="f-star s1">✨</span>
+          <span class="f-star s2">💖</span>
+          <span class="f-star s3">⭐</span>
+          <span class="f-star s4">🌸</span>
+          <span class="f-star s5">✨</span>
+        </div>
+
+        <!-- Main text from prompt: "i will meet you soon, imissu" -->
+        <div class="finale-message-card">
+          <h1 class="finale-title-text">
+            i will meet you soon, imissu
+          </h1>
+          <p class="finale-subtext">
+            Every second apart is just counting down until I can hold you in my arms again.
+          </p>
+        </div>
+
+        <!-- Pixelated Style Heart & Cute Cat with "miss u" on its head -->
+        <div class="finale-character-stage">
+          <!-- Pixelated style heart (vibrant retro pulsing pixel heart) -->
+          <div class="pixel-heart-wrapper">
+            <img src="assets/pixel_heart.png" alt="Pixelated Heart" class="pixel-heart-img pulse-pixel">
+            <div class="pixel-glow-ring"></div>
+          </div>
+
+          <!-- Cute Cat with "miss u" on its head -->
+          <div class="pixel-cat-wrapper">
+            <div class="cat-head-text-tag">miss u</div>
+            <img src="assets/pixel_cat.png" alt="Cute Cat saying miss u" class="pixel-cat-img bobbing-cat">
+            <div class="cat-shadow"></div>
+          </div>
+        </div>
+
+        <!-- Final Button: "Start again" which goes to the first ever page -->
+        <div class="finale-actions">
+          <button id="btnStartAgain" class="btn-start-again pulse-btn">
+            <span class="btn-icon">↺</span>
+            <span class="btn-text">Start again</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= MODALS & POPUPS ================= -->
+
+  <!-- Polaroid Lightbox / Photo Viewer & Uploader Modal -->
+  <div id="polaroidModal" class="modal-overlay hidden">
+    <div class="modal-card polaroid-modal-card">
+      <button class="modal-close-btn" id="btnClosePolaroidModal">×</button>
+      <div class="modal-polaroid-frame">
+        <img id="modalPolaroidImg" src="" alt="Memory">
+      </div>
+      <div class="modal-polaroid-meta">
+        <input type="text" id="modalPolaroidCaption" class="input-caption" placeholder="Add a memory note / caption...">
+        <div class="modal-actions-row">
+          <label class="btn-secondary" for="modalSinglePhotoUpload">
+            📷 Replace Photo
+            <input type="file" id="modalSinglePhotoUpload" accept="image/*" style="display:none;">
+          </label>
+          <button id="btnSavePolaroidCaption" class="btn-primary">Save Note</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Original Collage Lightbox Modal -->
+  <div id="collageModal" class="modal-overlay hidden">
+    <div class="modal-card collage-modal-card">
+      <button class="modal-close-btn" id="btnCloseCollageModal">×</button>
+      <h3 class="modal-title">Our Original Best Memories Collage 💖</h3>
+      <div class="collage-zoom-container">
+        <img src="assets/sample_memories.png" alt="Best Memories Collage" class="full-collage-img">
+      </div>
+      <p class="modal-note">This was our reference layout — you can also customize every photo on the clothesline!</p>
+    </div>
+  </div>
+
+  <!-- Edit Song Details & Lyrics Modal -->
+  <div id="songEditModal" class="modal-overlay hidden">
+    <div class="modal-card song-edit-card">
+      <button class="modal-close-btn" id="btnCloseSongEditModal">×</button>
+      <h3 class="modal-title">🎵 Customize Our Song & Lyrics</h3>
+      <div class="form-group">
+        <label for="inputSongTitle">Song Title:</label>
+        <input type="text" id="inputSongTitle" class="form-input" value="Sakkarakatti">
+      </div>
+      <div class="form-group">
+        <label for="inputArtistName">Artist / Singer:</label>
+        <input type="text" id="inputArtistName" class="form-input" value="Hiphop Tamizha">
+      </div>
+      <div class="form-group">
+        <label for="inputLyrics">Song Lyrics (Lines you sing together):</label>
+        <textarea id="inputLyrics" class="form-textarea" rows="8"></textarea>
+      </div>
+      <div class="modal-btn-row">
+        <button id="btnResetDefaultSong" class="btn-secondary">Reset to Default</button>
+        <button id="btnSaveSongDetails" class="btn-primary">Save Changes ❤️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Locked Envelopes Notice Modal -->
+  <div id="envelopesLockedModal" class="modal-overlay hidden">
+    <div class="modal-card locked-modal-card">
+      <button class="modal-close-btn" id="btnCloseLockedModalX">×</button>
+      <div class="locked-modal-icon">🔒💌</div>
+      <h3 class="modal-title">Wait a second, my love! 💕</h3>
+      <p class="locked-modal-text" id="lockedModalText">
+        To view this secret page, make sure all the other letters are opened first!
+      </p>
+      <div class="locked-status-summary" id="lockedStatusSummary">
+        <!-- Rendered list of remaining unopened envelopes -->
+      </div>
+      <div class="modal-actions-row" style="margin-top: 18px; justify-content: center;">
+        <button id="btnCloseLockedModal" class="btn-primary">
+          <span>Open Remaining Letters 💌</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Element for Song Playback -->
+  <audio id="romanticAudioPlayer" src="assets/our_song.mp3" preload="auto" loop></audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
