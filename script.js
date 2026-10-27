@@ -36,12 +36,12 @@ const APP_STATE = {
 
 // Default polaroids matching the user's reference collage
 const DEFAULT_PHOTOS = [
-  { id: 0, url: 'assets/default_photo_1.jpg', caption: 'Your sweetest smile 💕', rot: -5, sticker: '🌸', delay: 0 },
-  { id: 1, url: 'assets/default_photo_2.jpg', caption: 'With our sweet kitty 🐱', rot: 3, sticker: '🎀', delay: 0.4 },
-  { id: 2, url: 'assets/default_photo_3.jpg', caption: 'Cutest kiss ever 💋', rot: -3, sticker: '💌', delay: 0.8 },
-  { id: 3, url: 'assets/default_photo_4.jpg', caption: 'When you held my cheek ✨', rot: 4, sticker: '💮', delay: 1.2 },
-  { id: 4, url: 'assets/default_photo_5.jpg', caption: 'Looking into your eyes 👀', rot: -4, sticker: '🐰', delay: 1.6 },
-  { id: 5, url: 'assets/default_photo_6.jpg', caption: 'Every moment with you 💖', rot: 5, sticker: '🧸', delay: 2.0 }
+  { id: 0, url: 'assets/memory_1.jpg', fullUrl: 'assets/memory_1_full.jpg', caption: 'Your sweetest smile 💕', rot: -5, sticker: '🌸', delay: 0 },
+  { id: 1, url: 'assets/memory_2.jpg', fullUrl: 'assets/memory_2_full.png', caption: 'Whitey Spears 🎶', rot: 3, sticker: '🎀', delay: 0.4 },
+  { id: 2, url: 'assets/memory_3.jpg', fullUrl: 'assets/memory_3_full.png', caption: 'When you showed mooscles 💪', rot: -3, sticker: '💌', delay: 0.8 },
+  { id: 3, url: 'assets/memory_4.jpg', fullUrl: 'assets/memory_4_full.jpg', caption: 'When you held my hand ❤️', rot: 4, sticker: '💮', delay: 1.2 },
+  { id: 4, url: 'assets/memory_5.jpg', fullUrl: 'assets/memory_5_full.jpg', caption: 'Looking into your eyes 👀', rot: -4, sticker: '🐰', delay: 1.6 },
+  { id: 5, url: 'assets/memory_6.jpg', fullUrl: 'assets/memory_6_full.jpg', caption: 'Every moment with you 💖', rot: 5, sticker: '🧸', delay: 2.0 }
 ];
 
 // Default romantic song & lyrics that they always sing together
@@ -89,8 +89,10 @@ const DEFAULT_SONG = {
 // Load saved photos or fallback
 function getSavedPhotos() {
   try {
-    const saved = localStorage.getItem('bday_photos_list');
+    const saved = localStorage.getItem('bday_photos_list_v3');
     if (saved) return JSON.parse(saved);
+    localStorage.removeItem('bday_photos_list');
+    localStorage.removeItem('bday_photos_list_v2');
   } catch (e) {
     console.warn('LocalStorage error:', e);
   }
@@ -99,7 +101,7 @@ function getSavedPhotos() {
 
 function savePhotos(photos) {
   try {
-    localStorage.setItem('bday_photos_list', JSON.stringify(photos));
+    localStorage.setItem('bday_photos_list_v3', JSON.stringify(photos));
   } catch (e) {
     console.warn('LocalStorage save error:', e);
   }
@@ -807,7 +809,7 @@ function openPolaroidModal(index) {
   if (!photo) return;
 
   APP_STATE.activeModalPhotoIndex = index;
-  modalPolaroidImg.src = photo.url;
+  modalPolaroidImg.src = photo.fullUrl || photo.url;
   modalPolaroidCaption.value = photo.caption;
   polaroidModal.classList.remove('hidden');
 }
@@ -834,6 +836,7 @@ modalSinglePhotoUpload?.addEventListener('change', (e) => {
   reader.onload = (event) => {
     const photos = getSavedPhotos();
     photos[APP_STATE.activeModalPhotoIndex].url = event.target.result;
+    photos[APP_STATE.activeModalPhotoIndex].fullUrl = event.target.result;
     savePhotos(photos);
     modalPolaroidImg.src = event.target.result;
     renderClotheslinePolaroids();
@@ -1195,7 +1198,7 @@ document.getElementById('btnStartAgain')?.addEventListener('click', () => {
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   // Ensure default photos exist in state
-  if (!localStorage.getItem('bday_photos_list')) {
+  if (!localStorage.getItem('bday_photos_list_v3')) {
     savePhotos(DEFAULT_PHOTOS);
   }
   // Ensure default song exists in state (upgrade to our new song)
